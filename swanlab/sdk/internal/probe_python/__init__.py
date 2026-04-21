@@ -6,16 +6,22 @@
 与core设计理念一致，未来作为单独微服务实现
 """
 
+from typing import Optional
+
 from swanlab.sdk.internal.context import RunContext
+from swanlab.sdk.internal.probe_python.monitor import Monitor
 from swanlab.sdk.protocol.probe import ProbeProtocol
 
 
 class ProbePython(ProbeProtocol):
     def __init__(self, ctx: RunContext):
         super().__init__(ctx)
+        self._monitor: Optional[Monitor] = None
 
     def _start(self):
-        pass
+        """
+        启动硬件采集
+        """
         # settings = self._ctx.config.settings
         # # 1. 系统环境信息采集
         # git_snapshot = git.get() if settings.environment.git else None
@@ -58,9 +64,8 @@ class ProbePython(ProbeProtocol):
         #     conda=conda_snapshot,
         # )
         # # 3. 硬件监控
-        # hardware_monitor: Optional["Monitor"] = None
         # if settings.monitor.enable:
-        #     hardware_monitor = Monitor(system_shim)
+        #     self._monitor = Monitor(system_shim)
 
     def _start_when_local(self) -> None:
         pass
@@ -81,7 +86,6 @@ class ProbePython(ProbeProtocol):
         pass
 
 
-#
 # def create_monitor(ctx: RunContext, e: EmitterProtocol):
 #     if ctx.config.settings.mode == "disabled":
 #         return None
